@@ -1,43 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Preview from './pages/Preview';
+import { RootStackParamList } from './types/Navigation';
 
 export default function App() {
-  const [switcher, onSwitch] = useState(false)
+  const Stack = createNativeStackNavigator<RootStackParamList>()
+  
   return (
-    <View style={styles.container}>
-      <View>
-        <TouchableHighlight style={switcher ? styles.fade : styles.main} onPress={() => onSwitch(true)}>
-          <>
-            <Text>This is my test text!</Text>
-            <StatusBar style="auto" />
-          </>
-        </TouchableHighlight>
-      </View> 
-      <View style={ switcher ? styles.main : styles.fade}>
-        <Text>This is main Menu!</Text>
-      </View>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{
+    headerShown: false
+  }} initialRouteName='Preview'>
+        <Stack.Screen name="Preview" component={Preview}/>
+        
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative'
-  },
-  main: {
-    height: '100%',
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  fade: {
-    zIndex: -1,
-    display: 'none'
-  }
-});
